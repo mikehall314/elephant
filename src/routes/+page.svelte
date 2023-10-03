@@ -44,17 +44,72 @@
 	$: totalWithDiscount = total - getDiscount(total);
 </script>
 
-<div>Quantity: <input type="number" bind:value={quantity} /></div>
-<div>Price: <input type="number" bind:value={price} /></div>
-<div>State: <input type="text" bind:value={stateCode} /></div>
+<h1>Mike's Super-Duper Retail Calculator</h1>
 
-{#if errors.length === 0}
-	<p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
-{:else}
-	<p>THERE ARE ERRORS:</p>
-	<ul>
-		{#each errors as error}
-			<li>{error}</li>
-		{/each}
-	</ul>
-{/if}
+<main>
+	<div>Quantity</div>
+	<input type="number" bind:value={quantity} />
+
+	<div>Price ($)</div>
+	<input type="number" bind:value={price} />
+
+	<div>State</div>
+	<input type="text" bind:value={stateCode} />
+
+	{#if errors.length === 0}
+		<div class="total-row">
+			<div class="total-label">Total</div>
+			<div class="total-price">${Number(totalWithDiscount).toFixed(2)}</div>
+		</div>
+	{:else}
+		<div class="error-row">
+			<ul>
+				{#each errors as error}
+					<li>{error}</li>
+				{/each}
+			</ul>
+		</div>
+	{/if}
+</main>
+
+<style>
+	:root {
+		font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+			Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		font-size: 11pt;
+		color: #333;
+	}
+
+	main {
+		display: grid;
+		grid-template-columns: 5rem 15rem;
+		gap: 0.2rem;
+	}
+
+	h1 {
+		font-size: 1.2rem;
+	}
+
+	input[type='number'] {
+		text-align: right;
+	}
+
+	.total-row {
+		display: contents;
+		font-size: 1.5rem;
+		font-weight: bold;
+	}
+
+	.total-price {
+		text-align: right;
+	}
+
+	.error-row {
+		grid-column: 1 / span 2;
+		color: #cc0000;
+		border: #ff0000 1px solid;
+		background: #cc00007f;
+		border-radius: 0.5rem;
+		margin: 1rem 0;
+	}
+</style>
