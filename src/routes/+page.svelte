@@ -11,12 +11,15 @@
         ["CA", 1.0825]
     ]);
 
+    const getDiscountRate = (total) =>  total >= 1000 ? 0.03 : 0;
+
     $: total = quantity * price * (taxRateChart.get(stateCode) ?? 1);
+    $: totalWithDiscount = total - (getDiscountRate(total) * total);
 </script>
 
 <div>Quantity: <input type="number" bind:value={quantity}></div>
 <div>Price: <input type="number" bind:value={price}></div>
 <div>State: <input type="text" bind:value={stateCode}></div>
 
-<p>Total: ${Number(total).toFixed(2)}</p>
+<p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
 
