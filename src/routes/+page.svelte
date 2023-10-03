@@ -34,6 +34,10 @@
 		if (price < 0) {
 			errors.push('Price must not be negative');
 		}
+
+		if (taxRateChart.has(stateCode) === false) {
+			errors.push('State must be one of UT, NV, TX, AL, CA');
+		}
 	}
 
 	$: total = quantity * price * (taxRateChart.get(stateCode) ?? 1);
