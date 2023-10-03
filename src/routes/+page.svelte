@@ -2,6 +2,7 @@
 	let quantity = 1;
 	let price = 0;
 	let stateCode = 'UT';
+	let error = '';
 
 	const taxRateChart = new Map([
 		['UT', 1.0685],
@@ -24,6 +25,13 @@
 		return discount ? total * discount.rate : 0;
 	};
 
+	$: {
+		error = '';
+		if (quantity < 1) {
+			error = 'You must order at least one';
+		}
+	}
+
 	$: total = quantity * price * (taxRateChart.get(stateCode) ?? 1);
 	$: totalWithDiscount = total - getDiscount(total);
 </script>
@@ -32,4 +40,8 @@
 <div>Price: <input type="number" bind:value={price} /></div>
 <div>State: <input type="text" bind:value={stateCode} /></div>
 
-<p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
+{#if error}
+	<p>ERROR: {error}</p>
+{:else}
+	<p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
+{/if}
