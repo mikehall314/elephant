@@ -6,4 +6,4 @@
 <div>Quantity: <input type="number" bind:value={quantity}></div>
 <div>Price: <input type="number" bind:value={price}></div>
 
-<p>Total: {quantity} * ${price}</p>
+<p>Total: ${quantity * price}</p>
