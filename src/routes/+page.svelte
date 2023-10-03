@@ -25,6 +25,11 @@
 		return discount ? total * discount.rate : 0;
 	};
 
+	const formatDollars = (() => {
+		const formatter = new Intl.NumberFormat('en-US', { currency: 'USD', style: 'currency' });
+		return (n) => formatter.format(n);
+	})();
+
 	$: {
 		errors = [];
 		if (quantity < 1) {
@@ -59,7 +64,7 @@
 	{#if errors.length === 0}
 		<div class="total-row">
 			<div class="total-label">Total</div>
-			<div class="total-price">${Number(totalWithDiscount).toFixed(2)}</div>
+			<div class="total-price">{formatDollars(totalWithDiscount)}</div>
 		</div>
 	{:else}
 		<div class="error-row">
