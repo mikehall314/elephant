@@ -2,7 +2,7 @@
 	let quantity = 1;
 	let price = 0;
 	let stateCode = 'UT';
-	let error = '';
+	let errors = [];
 
 	const taxRateChart = new Map([
 		['UT', 1.0685],
@@ -26,9 +26,13 @@
 	};
 
 	$: {
-		error = '';
+		errors = [];
 		if (quantity < 1) {
-			error = 'You must order at least one';
+			errors.push('You must order at least one');
+		}
+
+		if (price < 0) {
+			errors.push('Price must not be negative');
 		}
 	}
 
@@ -40,8 +44,13 @@
 <div>Price: <input type="number" bind:value={price} /></div>
 <div>State: <input type="text" bind:value={stateCode} /></div>
 
-{#if error}
-	<p>ERROR: {error}</p>
-{:else}
+{#if errors.length === 0}
 	<p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
+{:else}
+	<p>THERE ARE ERRORS:</p>
+	<ul>
+		{#each errors as error}
+			<li>{error}</li>
+		{/each}
+	</ul>
 {/if}
