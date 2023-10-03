@@ -24,3 +24,29 @@
 
 <p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
 
+<table>
+    <tr>
+        <th>Value</th>
+        <th>Discount</th>
+    </tr>
+    <tr>
+        <td>$1,000</td>
+        <td>3%</td>
+    </tr>
+    <tr>
+        <td>$5,000</td>
+        <td>5%</td>
+    </tr>
+    <tr>
+        <td>$5,000</td>
+        <td>7%</td>
+    </tr>
+    <tr>
+        <td>$10,000</td>
+        <td>10%</td>
+    </tr>
+    <tr>
+        <td>$50,000</td>
+        <td>15%</td>
+    </tr>
+</table>
