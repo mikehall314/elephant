@@ -2,7 +2,6 @@
     let quantity = 1;
     let price = 0;
     let stateCode = "UT";
-    let discountPercent = 0;
 
     const taxRateChart = new Map([
         ["UT", 1.0685],
@@ -12,41 +11,25 @@
         ["CA", 1.0825]
     ]);
 
+    const discounts = [
+        { threshold: 50000, rate: 0.15 },
+        { threshold: 10000, rate: 0.1 },
+        { threshold: 7000, rate: 0.07 },
+        { threshold: 5000, rate: 0.05 },
+        { threshold: 1000, rate: 0.03 },
+    ];
+
+    const getDiscount = (total) => {
+        const discount = discounts.find(({ threshold }) => threshold <= total);
+        return discount ? (total * discount.rate) : 0;
+    };
+
     $: total = quantity * price * (taxRateChart.get(stateCode) ?? 1);
-    $: totalWithDiscount = total - ((discountPercent / 100) * total);
+    $: totalWithDiscount = total - getDiscount(total);
 </script>
 
 <div>Quantity: <input type="number" bind:value={quantity}></div>
 <div>Price: <input type="number" bind:value={price}></div>
 <div>State: <input type="text" bind:value={stateCode}></div>
 
-<div>Discount: <input type="number" bind:value={discountPercent}> %</div>
-
 <p>Total: ${Number(totalWithDiscount).toFixed(2)}</p>
-
-<table>
-    <tr>
-        <th>Value</th>
-        <th>Discount</th>
-    </tr>
-    <tr>
-        <td>$1,000</td>
-        <td>3%</td>
-    </tr>
-    <tr>
-        <td>$5,000</td>
-        <td>5%</td>
-    </tr>
-    <tr>
-        <td>$5,000</td>
-        <td>7%</td>
-    </tr>
-    <tr>
-        <td>$10,000</td>
-        <td>10%</td>
-    </tr>
-    <tr>
-        <td>$50,000</td>
-        <td>15%</td>
-    </tr>
-</table>
